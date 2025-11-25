@@ -25,8 +25,8 @@ resource "azurerm_container_group" "producers" {
   }
 
   image_registry_credential {
-    server   = "index.docker.io"
-    username = var.dockerhub_username
-    password = var.dockerhub_token
+    server   = var.acr_login_server
+    username = var.acr_username
+    password = var.acr_password
   }
 }

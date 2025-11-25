@@ -34,10 +34,14 @@ variable "memory" {
   default = 1.0
 }
 
-variable "dockerhub_username" {
+variable "acr_login_server" {
   type = string
 }
 
-variable "dockerhub_token" {
+variable "acr_username" {
+  type = string
+}
+
+variable "acr_password" {
   type = string
 }
