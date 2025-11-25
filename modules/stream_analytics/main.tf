@@ -19,7 +19,7 @@ resource "azurerm_stream_analytics_job" "asa_job" {
         i.ArrayValue.product_id,
         o.customer.id AS customer_id,
         i.ArrayValue.quantity,
-        i.ArrayValue.unit_price,
+        i.ArrayValue.price AS unit_price,
         o.status,
         DATEADD(second, o.timestamp, '1970-01-01') AS order_timestamp
     INTO
