@@ -114,7 +114,7 @@ erDiagram
     %% =======================
 
     fact_order {
-        string order_id
+        string order_id PK
         int    customer_sk FK
         date    order_date
         float  total_amount
