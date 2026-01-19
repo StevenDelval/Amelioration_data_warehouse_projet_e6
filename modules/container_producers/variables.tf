@@ -45,3 +45,17 @@ variable "acr_username" {
 variable "acr_password" {
   type = string
 }
+
+
+variable sql_admin_user{
+  type = string
+}
+variable sql_admin_password{
+  type = string
+}
+variable sql_server{
+  type = string
+}
+variable sql_db{
+  type = string
+}

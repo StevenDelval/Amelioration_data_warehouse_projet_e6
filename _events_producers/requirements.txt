@@ -1,2 +1,11 @@
+faker
+sqlalchemy
+pyodbc
+requests
+python-dotenv
 azure-eventhub
-Faker
+sqlalchemy-access 
+azure-identity
+pymssql
+python-tds
+sqlalchemy-pytds

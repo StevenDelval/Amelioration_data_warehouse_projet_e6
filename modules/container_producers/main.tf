@@ -20,6 +20,10 @@ resource "azurerm_container_group" "producers" {
       ORDERS_INTERVAL         = 60
       PRODUCTS_INTERVAL       = 120
       CLICKSTREAM_INTERVAL    = 2
+      SQL_USER                = var.sql_admin_user
+      SQL_PASSWORD            = var.sql_admin_password
+      SQL_SERVER              = var.sql_server
+      SQL_DB                  = var.sql_db
     }
 
   }

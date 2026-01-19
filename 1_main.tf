@@ -61,5 +61,9 @@ module "container_producers" {
   acr_login_server = module.make_docker_image.login_server
   acr_username = module.make_docker_image.admin_username
   acr_password = module.make_docker_image.admin_password
+  sql_admin_password = var.sql_admin_password
+  sql_admin_user = var.sql_admin_login
+  sql_db = module.sql_database.database_name
+  sql_server = module.sql_database.server_fqdn
 }
 
