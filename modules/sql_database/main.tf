@@ -15,6 +15,20 @@ resource "azurerm_mssql_database" "dwh" {
   max_size_gb    = 2
   sku_name       = "S0"
   zone_redundant = false
+
+  # Backups court terme (PITR) - Restauration à n'importe quel point dans les 7 derniers jours
+  short_term_retention_policy {
+    retention_days           = 7     # 7 jours de PITR
+    backup_interval_in_hours = 24    # Backup différentiel toutes les 24h
+  }
+
+  # Backups long terme (LTR) - Conservation pour conformité et analyse historique
+  long_term_retention_policy {
+    weekly_retention  = "P4W"   # 4 semaines de backups hebdomadaires
+    monthly_retention = "P12M"  # 12 mois de backups mensuels
+    yearly_retention  = "P3Y"   # 3 ans de backups annuels (conformité RGPD)
+    week_of_year      = 1       # Backup annuel en semaine 1 (début janvier)
+  }
 }
 
 resource "azurerm_mssql_firewall_rule" "allow_azure_services" {
