@@ -110,6 +110,9 @@ CREATE TABLE fact_clickstream (
 CREATE INDEX idx_clickstream_event_timestamp ON fact_clickstream(event_timestamp);
 CREATE INDEX idx_clickstream_user_id ON fact_clickstream(user_id);
 
+-- Créer les schémas
+CREATE SCHEMA staging;
+CREATE SCHEMA marts;
 
 -- ============================================
 -- RÔLES ET PERMISSIONS - DWH SHOPNOW
@@ -122,6 +125,21 @@ CREATE ROLE role_data_engineer;
 -- Permissions sur les schémas
 GRANT CREATE TABLE TO role_data_engineer;
 GRANT ALTER ON SCHEMA::dbo TO role_data_engineer;
+
+-- Permissions système (nécessaires pour dbt)
+GRANT VIEW DATABASE STATE TO role_data_engineer;
+GRANT VIEW DEFINITION TO role_data_engineer;
+GRANT EXECUTE TO role_data_engineer;
+GRANT SELECT ON sys.sql_expression_dependencies TO role_data_engineer;
+
+
+-- Permissions de création d'objets
+GRANT CREATE TABLE TO role_data_engineer;
+GRANT CREATE VIEW TO role_data_engineer;
+GRANT CREATE PROCEDURE TO role_data_engineer;
+GRANT CREATE FUNCTION TO role_data_engineer;
+GRANT CREATE SCHEMA TO role_data_engineer;
+
 
 -- Permissions complètes sur toutes les tables (DML + DDL)
 GRANT SELECT, INSERT, UPDATE, DELETE ON dim_customer TO role_data_engineer;
@@ -142,12 +160,6 @@ GRANT ALTER ON fact_order TO role_data_engineer;
 GRANT ALTER ON fact_order_items TO role_data_engineer;
 GRANT ALTER ON fact_seller_product_stock TO role_data_engineer;
 GRANT ALTER ON fact_clickstream TO role_data_engineer;
-
--- Permissions pour créer/modifier des vues et procédures stockées
-GRANT CREATE VIEW TO role_data_engineer;
-GRANT CREATE PROCEDURE TO role_data_engineer;
-GRANT EXECUTE TO role_data_engineer;
-
 
 -- 2. ADMINISTRATEURS SYSTÈME
 -- Gestion infrastructure, backups, monitoring, sécurité
@@ -269,4 +281,3 @@ GRANT VIEW DEFINITION ON fact_order TO role_read_only;
 GRANT VIEW DEFINITION ON fact_order_items TO role_read_only;
 GRANT VIEW DEFINITION ON fact_seller_product_stock TO role_read_only;
 GRANT VIEW DEFINITION ON fact_clickstream TO role_read_only;
-
