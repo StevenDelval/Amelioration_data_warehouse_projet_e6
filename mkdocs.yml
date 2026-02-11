@@ -12,7 +12,7 @@ nav:
   - Accueil: index.md
   - Base de données: database.md
   - DBT: shopnow_dbt.md
-  - Terraform: terraform/README.md
+  - Terraform: terraform.md
   - Producteurs d'événements: events_producers.md
 
 markdown_extensions:
