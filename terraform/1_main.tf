@@ -21,7 +21,7 @@ module "sql_database" {
   location            = azurerm_resource_group.rg.location
   sql_admin_login     = var.sql_admin_login
   sql_admin_password  = var.sql_admin_password
-  schema_file_path    = "${path.root}/dwh_schema.sql"
+  schema_file_path    = "${path.root}/../database/dwh_schema.sql"
 }
 
 // Stream
