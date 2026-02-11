@@ -1,0 +1,894 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation - Data Warehouse avec Terraform">
+      
+      
+        <meta name="author" content="Steven Delval">
+      
+      
+      
+        <link rel="prev" href="../terraform/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Producteurs d'événements - Documentation DWH Terraform</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#producteur-devenements-_events_producers" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Documentation DWH Terraform" class="md-header__button md-logo" aria-label="Documentation DWH Terraform" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentation DWH Terraform
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Producteurs d'événements
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Documentation DWH Terraform" class="md-nav__button md-logo" aria-label="Documentation DWH Terraform" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Documentation DWH Terraform
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base de données
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shopnow_dbt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DBT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terraform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producteurs d'événements
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producteurs d'événements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-structure-du-dossier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Structure du dossier
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-variables-denvironnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Variables d’environnement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-connexion-et-chargement-des-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Connexion et chargement des données
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-types-devenements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Types d’événements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Types d’événements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-commandes-build_order_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        a. Commandes (build_order_event)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-stock-build_stock_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        b. Stock (build_stock_event)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-clickstream-build_clickstream_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        c. Clickstream (build_clickstream_event)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-envoi-vers-event-hubs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Envoi vers Event Hubs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-boucle-principale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Boucle principale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-installation-et-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Installation et exécution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Installation et exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-installer-les-dependances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        a. Installer les dépendances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-lancer-le-producteur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        b. Lancer le producteur
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-structure-du-dossier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Structure du dossier
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-variables-denvironnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Variables d’environnement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-connexion-et-chargement-des-donnees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Connexion et chargement des données
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-types-devenements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Types d’événements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Types d’événements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-commandes-build_order_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        a. Commandes (build_order_event)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-stock-build_stock_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        b. Stock (build_stock_event)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-clickstream-build_clickstream_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        c. Clickstream (build_clickstream_event)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-envoi-vers-event-hubs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Envoi vers Event Hubs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-boucle-principale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Boucle principale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-installation-et-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Installation et exécution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Installation et exécution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-installer-les-dependances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        a. Installer les dépendances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-lancer-le-producteur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        b. Lancer le producteur
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="producteur-devenements-_events_producers">Producteur d’événements – <code>_events_producers</code><a class="headerlink" href="#producteur-devenements-_events_producers" title="Permanent link">&para;</a></h1>
+<p>Le script <code>producers.py</code> permet de <strong>simuler et envoyer des flux de données</strong> vers Azure Event Hubs pour le DWH ShopNow.<br />
+Il produit des événements pour les commandes, stocks et clickstreams, en utilisant des données réalistes générées avec <code>Faker</code> et les tables du DWH.</p>
+<h2 id="1-structure-du-dossier">1. Structure du dossier<a class="headerlink" href="#1-structure-du-dossier" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>_events_producers/
+├── Dockerfile # Conteneurisation du producer
+├── producers.py # Script principal
+├── README.md # Cette documentation
+└── requirements.txt # Librairies Python (faker, sqlalchemy, azure-eventhub...)
+</code></pre></div>
+<h2 id="2-variables-denvironnement">2. Variables d’environnement<a class="headerlink" href="#2-variables-denvironnement" title="Permanent link">&para;</a></h2>
+<p>Le script utilise <strong>dotenv</strong> pour charger les paramètres de connexion et les intervalles d’événements.  </p>
+<div class="highlight"><pre><span></span><code># Connexion à la base SQL
+SQL_USER=&quot;&quot;
+SQL_PASSWORD=&quot;&quot;
+SQL_SERVER=&quot;&quot;
+SQL_DB=&quot;dwh-shopnow&quot;
+
+# Connexion à Azure Event Hubs
+EVENTHUB_CONN_STR=&quot;&quot;
+
+# Intervalles en secondes pour la génération d&#39;événements
+ORDERS_INTERVAL=30        # Commandes
+STOCK_INTERVAL=30         # Stocks
+CLICKSTREAM_INTERVAL=3    # Clickstreams
+</code></pre></div>
+<p>Conseil : ne pas commiter ce fichier sur un repo public, car il contient des credentials sensibles.</p>
+<h2 id="3-connexion-et-chargement-des-donnees">3. Connexion et chargement des données<a class="headerlink" href="#3-connexion-et-chargement-des-donnees" title="Permanent link">&para;</a></h2>
+<p>Le script utilise SQLAlchemy pour récupérer les données existantes et remplir les pools :</p>
+<p>| Pool  |Table SQL| |Description|
+|---------------|-------------|---------------------------------|
+|CUSTOMERS_POOL |dim_customer   |Clients existants|
+|SELLERS_POOL   |dim_seller |Vendeurs existants|
+|PRODUCTS_POOL  |dim_product    |Produits existants|
+|SELLER_PRODUCT_POOL    |dim_seller_product_pricing |Produits avec vendeurs et prix|</p>
+<p>Ces pools sont utilisés pour générer des événements réalistes.</p>
+<h2 id="4-types-devenements">4. Types d’événements<a class="headerlink" href="#4-types-devenements" title="Permanent link">&para;</a></h2>
+<h3 id="a-commandes-build_order_event">a. Commandes (build_order_event)<a class="headerlink" href="#a-commandes-build_order_event" title="Permanent link">&para;</a></h3>
+<p>Sélection aléatoire d’un client</p>
+<p>Sélection de 1 à 5 produits vendus par différents vendeurs</p>
+<p>Calcul du total_amount et construction des items
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;event_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;order&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;event_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;order_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;customer_sk&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="nt">&quot;seller_product_sk&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;unit_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;total_amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PLACED&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-02-11T12:00:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="b-stock-build_stock_event">b. Stock (build_stock_event)<a class="headerlink" href="#b-stock-build_stock_event" title="Permanent link">&para;</a></h3>
+<p>Sélection aléatoire d’un produit-vendeur</p>
+<p>Génère la quantité disponible
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;event_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;seller_product_sk&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;event_timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-02-11T12:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;generator&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="c-clickstream-build_clickstream_event">c. Clickstream (build_clickstream_event)<a class="headerlink" href="#c-clickstream-build_clickstream_event" title="Permanent link">&para;</a></h3>
+<p>Simule des actions utilisateur : view_page, add_to_cart, checkout_start</p>
+<p>Génère un user_agent et ip avec Faker</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;event_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;clickstream&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;event_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;session_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/product/abc123&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;view_page&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user_agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mozilla/5.0 ...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-02-11T12:00:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="5-envoi-vers-event-hubs">5. Envoi vers Event Hubs<a class="headerlink" href="#5-envoi-vers-event-hubs" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>def send_event(hub_name, event):
+    batch = producers[hub_name].create_batch()
+    batch.add(EventData(json.dumps(event)))
+    producers[hub_name].send_batch(batch)
+</code></pre></div>
+<ul>
+<li>
+<p>Sérialise l’événement en JSON</p>
+</li>
+<li>
+<p>Envoie dans le hub correspondant (orders, stock, clickstream)</p>
+</li>
+<li>
+<p>Affiche dans la console les événements envoyés</p>
+</li>
+</ul>
+<h2 id="6-boucle-principale">6. Boucle principale<a class="headerlink" href="#6-boucle-principale" title="Permanent link">&para;</a></h2>
+<p>Vérifie chaque intervalle configuré (ORDERS_INTERVAL, STOCK_INTERVAL, CLICKSTREAM_INTERVAL)</p>
+<p>Envoie les événements correspondants</p>
+<p>Pause de 0,5 seconde pour limiter la charge CPU</p>
+<p>Affiche les logs pour suivre l’envoi
+<div class="highlight"><pre><span></span><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">EVENT_HUBS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">now</span> <span class="o">-</span> <span class="n">timers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">interval</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">==</span><span class="s2">&quot;orders&quot;</span><span class="p">:</span>
+                <span class="n">send_event</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">build_order_event</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">name</span><span class="o">==</span><span class="s2">&quot;stock&quot;</span><span class="p">:</span>
+                <span class="n">send_event</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">build_stock_event</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">name</span><span class="o">==</span><span class="s2">&quot;clickstream&quot;</span><span class="p">:</span>
+                <span class="n">send_event</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">build_clickstream_event</span><span class="p">())</span>
+            <span class="n">timers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">now</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div></p>
+<h2 id="7-installation-et-execution">7. Installation et exécution<a class="headerlink" href="#7-installation-et-execution" title="Permanent link">&para;</a></h2>
+<h3 id="a-installer-les-dependances">a. Installer les dépendances<a class="headerlink" href="#a-installer-les-dependances" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div>
+<h3 id="b-lancer-le-producteur">b. Lancer le producteur<a class="headerlink" href="#b-lancer-le-producteur" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>producers.py
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
