@@ -123,7 +123,7 @@ CREATE SCHEMA marts;
 CREATE ROLE role_data_engineer;
 
 -- Permissions sur les schémas
-GRANT CREATE TABLE TO role_data_engineer;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO role_data_engineer;
 GRANT ALTER ON SCHEMA::dbo TO role_data_engineer;
 
 -- Permissions système (nécessaires pour dbt)
@@ -132,7 +132,6 @@ GRANT VIEW DEFINITION TO role_data_engineer;
 GRANT EXECUTE TO role_data_engineer;
 GRANT SELECT ON sys.sql_expression_dependencies TO role_data_engineer;
 
-
 -- Permissions de création d'objets
 GRANT CREATE TABLE TO role_data_engineer;
 GRANT CREATE VIEW TO role_data_engineer;
@@ -140,63 +139,43 @@ GRANT CREATE PROCEDURE TO role_data_engineer;
 GRANT CREATE FUNCTION TO role_data_engineer;
 GRANT CREATE SCHEMA TO role_data_engineer;
 
-
--- Permissions complètes sur toutes les tables (DML + DDL)
-GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO role_data_engineer;
-
--- Permissions pour modifier les structures (ALTER TABLE, DROP, etc.)
-GRANT ALTER ON SCHEMA::dbo TO role_data_engineer;
+-- Contrôle complet sur les schémas de travail
+GRANT CONTROL ON SCHEMA::staging TO role_data_engineer;
+GRANT CONTROL ON SCHEMA::marts TO role_data_engineer;
 
 -- 2. ADMINISTRATEURS SYSTÈME
 -- Gestion infrastructure, backups, monitoring, sécurité
 CREATE ROLE role_system_admin;
 
--- Permissions de lecture sur toutes les tables (monitoring)
-GRANT SELECT ON dim_customer TO role_system_admin;
-GRANT SELECT ON dim_seller TO role_system_admin;
-GRANT SELECT ON dim_product TO role_system_admin;
-GRANT SELECT ON dim_seller_product_pricing TO role_system_admin;
-GRANT SELECT ON fact_order TO role_system_admin;
-GRANT SELECT ON fact_order_items TO role_system_admin;
-GRANT SELECT ON fact_seller_product_stock TO role_system_admin;
-GRANT SELECT ON fact_clickstream TO role_system_admin;
+-- Lecture globale
+GRANT SELECT ON SCHEMA::dbo TO role_system_admin;
+GRANT SELECT ON SCHEMA::staging TO role_system_admin;
+GRANT SELECT ON SCHEMA::marts TO role_system_admin;
 
--- Permissions pour les vues système et monitoring
+-- Monitoring
 GRANT VIEW DATABASE STATE TO role_system_admin;
 
--- Permissions pour la gestion des backups
+-- Backup
 GRANT BACKUP DATABASE TO role_system_admin;
 GRANT BACKUP LOG TO role_system_admin;
 
--- Permissions pour la gestion des index et optimisation
-GRANT ALTER ON dim_customer TO role_system_admin;
-GRANT ALTER ON dim_seller TO role_system_admin;
-GRANT ALTER ON dim_product TO role_system_admin;
-GRANT ALTER ON dim_seller_product_pricing TO role_system_admin;
-GRANT ALTER ON fact_order TO role_system_admin;
-GRANT ALTER ON fact_order_items TO role_system_admin;
-GRANT ALTER ON fact_seller_product_stock TO role_system_admin;
-GRANT ALTER ON fact_clickstream TO role_system_admin;
+-- Gestion performance (index, alter tables)
+GRANT ALTER ON SCHEMA::dbo TO role_system_admin;
+GRANT ALTER ON SCHEMA::staging TO role_system_admin;
+GRANT ALTER ON SCHEMA::marts TO role_system_admin;
 
 
 -- 3. OPÉRATEURS QUALITÉ
 -- Validation données, analyse rejets, contrôles cohérence
 CREATE ROLE role_quality_operator;
 
--- Lecture complète sur toutes les tables
-GRANT SELECT ON dim_customer TO role_quality_operator;
-GRANT SELECT ON dim_seller TO role_quality_operator;
-GRANT SELECT ON dim_product TO role_quality_operator;
-GRANT SELECT ON dim_seller_product_pricing TO role_quality_operator;
-GRANT SELECT ON fact_order TO role_quality_operator;
-GRANT SELECT ON fact_order_items TO role_quality_operator;
-GRANT SELECT ON fact_seller_product_stock TO role_quality_operator;
-GRANT SELECT ON fact_clickstream TO role_quality_operator;
+-- Lecture complète DWH
+GRANT SELECT ON SCHEMA::dbo TO role_quality_operator;
+GRANT SELECT ON SCHEMA::staging TO role_quality_operator;
+GRANT SELECT ON SCHEMA::marts TO role_quality_operator;
 
--- Création de tables de contrôle qualité et reporting
+-- Création objets de contrôle qualité
 GRANT CREATE TABLE TO role_quality_operator;
-
--- Permissions pour créer des vues de contrôle
 GRANT CREATE VIEW TO role_quality_operator;
 
 -- Permissions pour exécuter des procédures de validation
@@ -207,66 +186,34 @@ GRANT EXECUTE TO role_quality_operator;
 -- Définition règles métiers, documentation, conformité RGPD, gestion accès
 CREATE ROLE role_data_governance;
 
--- Lecture complète sur toutes les tables
-GRANT SELECT ON dim_customer TO role_data_governance;
-GRANT SELECT ON dim_seller TO role_data_governance;
-GRANT SELECT ON dim_product TO role_data_governance;
-GRANT SELECT ON dim_seller_product_pricing TO role_data_governance;
-GRANT SELECT ON fact_order TO role_data_governance;
-GRANT SELECT ON fact_order_items TO role_data_governance;
-GRANT SELECT ON fact_seller_product_stock TO role_data_governance;
-GRANT SELECT ON fact_clickstream TO role_data_governance;
+-- Lecture complète
+GRANT SELECT ON SCHEMA::dbo TO role_data_governance;
+GRANT SELECT ON SCHEMA::staging TO role_data_governance;
+GRANT SELECT ON SCHEMA::marts TO role_data_governance;
 
 -- Permissions pour voir les métadonnées et structures
-GRANT VIEW DEFINITION ON dim_customer TO role_data_governance;
-GRANT VIEW DEFINITION ON dim_seller TO role_data_governance;
-GRANT VIEW DEFINITION ON dim_product TO role_data_governance;
-GRANT VIEW DEFINITION ON dim_seller_product_pricing TO role_data_governance;
-GRANT VIEW DEFINITION ON fact_order TO role_data_governance;
-GRANT VIEW DEFINITION ON fact_order_items TO role_data_governance;
-GRANT VIEW DEFINITION ON fact_seller_product_stock TO role_data_governance;
-GRANT VIEW DEFINITION ON fact_clickstream TO role_data_governance;
-
--- Permissions pour gérer les accès (conformité RGPD)
-GRANT ALTER ANY USER TO role_data_governance;
 GRANT VIEW DEFINITION TO role_data_governance;
 
--- Gestion des rôles
+-- Gestion des rôles / accès
 GRANT ALTER ANY ROLE TO role_data_governance;
-
+GRANT ALTER ANY USER TO role_data_governance;
 
 -- Permissions pour créer des vues de documentation
 GRANT CREATE VIEW TO role_data_governance;
 
 -- Permissions pour UPDATE sur données sensibles (anonymisation RGPD)
-GRANT UPDATE ON dim_customer TO role_data_governance;
-GRANT DELETE ON dim_customer TO role_data_governance;
-GRANT DELETE ON fact_clickstream TO role_data_governance;
+GRANT UPDATE ON SCHEMA::marts TO role_data_governance;
 
 
 -- 5. LECTURE SEULE (Analystes, Reporting, BI)
 -- Accès en lecture uniquement pour consultation et analyse
 CREATE ROLE role_read_only;
 
--- Lecture sur toutes les tables
-GRANT SELECT ON dim_customer TO role_read_only;
-GRANT SELECT ON dim_seller TO role_read_only;
-GRANT SELECT ON dim_product TO role_read_only;
-GRANT SELECT ON dim_seller_product_pricing TO role_read_only;
-GRANT SELECT ON fact_order TO role_read_only;
-GRANT SELECT ON fact_order_items TO role_read_only;
-GRANT SELECT ON fact_seller_product_stock TO role_read_only;
-GRANT SELECT ON fact_clickstream TO role_read_only;
+-- Lecture uniquement sur marts
+GRANT SELECT ON SCHEMA::marts TO role_read_only;
 
--- Permissions pour voir les définitions des objets
-GRANT VIEW DEFINITION ON dim_customer TO role_read_only;
-GRANT VIEW DEFINITION ON dim_seller TO role_read_only;
-GRANT VIEW DEFINITION ON dim_product TO role_read_only;
-GRANT VIEW DEFINITION ON dim_seller_product_pricing TO role_read_only;
-GRANT VIEW DEFINITION ON fact_order TO role_read_only;
-GRANT VIEW DEFINITION ON fact_order_items TO role_read_only;
-GRANT VIEW DEFINITION ON fact_seller_product_stock TO role_read_only;
-GRANT VIEW DEFINITION ON fact_clickstream TO role_read_only;
+-- Voir les structures
+GRANT VIEW DEFINITION ON SCHEMA::marts TO role_read_only;
 
 --CREATE USER da_user WITH PASSWORD = 'StrongP@ssw0rd!efzs';
 --ALTER ROLE role_data_governance ADD MEMBER da_user;
