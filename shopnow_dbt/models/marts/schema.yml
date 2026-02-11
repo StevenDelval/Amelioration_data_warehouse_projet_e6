@@ -1,0 +1,50 @@
+version: 2
+
+models:
+
+  - name: dim_customer
+    description: "Current active customers"
+    columns:
+      - name: customer_sk
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_seller
+    columns:
+      - name: seller_sk
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_product
+    columns:
+      - name: product_sk
+        tests:
+          - not_null
+          - unique
+
+  - name: fact_sales
+    description: "Aggregated sales fact table"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+
+      - name: customer_sk
+        tests:
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_sk
+
+      - name: product_sk
+        tests:
+          - relationships:
+              to: ref('dim_product')
+              field: product_sk
+
+      - name: seller_sk
+        tests:
+          - relationships:
+              to: ref('dim_seller')
+              field: seller_sk

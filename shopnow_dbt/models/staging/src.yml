@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: shopnow_raw
+    description: "Raw operational tables from ShopNow DWH"
+    database: dwh-shopnow
+    schema: dbo
+
+    tables:
+      - name: dim_customer
+        description: "Customer dimension raw table"
+
+      - name: dim_seller
+        description: "Seller dimension raw table"
+
+      - name: dim_product
+        description: "Product dimension raw table"
+
+      - name: dim_seller_product_pricing
+        description: "Seller product pricing raw table"
+
+      - name: fact_order
+        description: "Orders fact raw table"
+
+      - name: fact_order_items
+        description: "Order items fact raw table"
+
+      - name: fact_seller_product_stock
+        description: "Seller stock events raw table"
+
+      - name: fact_clickstream
+        description: "Clickstream events raw table"

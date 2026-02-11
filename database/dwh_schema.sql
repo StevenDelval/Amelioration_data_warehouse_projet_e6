@@ -142,24 +142,10 @@ GRANT CREATE SCHEMA TO role_data_engineer;
 
 
 -- Permissions complètes sur toutes les tables (DML + DDL)
-GRANT SELECT, INSERT, UPDATE, DELETE ON dim_customer TO role_data_engineer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON dim_seller TO role_data_engineer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON dim_product TO role_data_engineer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON dim_seller_product_pricing TO role_data_engineer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON fact_order TO role_data_engineer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON fact_order_items TO role_data_engineer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON fact_seller_product_stock TO role_data_engineer;
-GRANT SELECT, INSERT, UPDATE, DELETE ON fact_clickstream TO role_data_engineer;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO role_data_engineer;
 
 -- Permissions pour modifier les structures (ALTER TABLE, DROP, etc.)
-GRANT ALTER ON dim_customer TO role_data_engineer;
-GRANT ALTER ON dim_seller TO role_data_engineer;
-GRANT ALTER ON dim_product TO role_data_engineer;
-GRANT ALTER ON dim_seller_product_pricing TO role_data_engineer;
-GRANT ALTER ON fact_order TO role_data_engineer;
-GRANT ALTER ON fact_order_items TO role_data_engineer;
-GRANT ALTER ON fact_seller_product_stock TO role_data_engineer;
-GRANT ALTER ON fact_clickstream TO role_data_engineer;
+GRANT ALTER ON SCHEMA::dbo TO role_data_engineer;
 
 -- 2. ADMINISTRATEURS SYSTÈME
 -- Gestion infrastructure, backups, monitoring, sécurité
@@ -281,3 +267,9 @@ GRANT VIEW DEFINITION ON fact_order TO role_read_only;
 GRANT VIEW DEFINITION ON fact_order_items TO role_read_only;
 GRANT VIEW DEFINITION ON fact_seller_product_stock TO role_read_only;
 GRANT VIEW DEFINITION ON fact_clickstream TO role_read_only;
+
+--CREATE USER da_user WITH PASSWORD = 'StrongP@ssw0rd!efzs';
+--ALTER ROLE role_data_governance ADD MEMBER da_user;
+
+-- CREATE USER etl_user WITH PASSWORD = 'StrongP@ssw0rd!efzs';
+-- ALTER ROLE role_data_engineer ADD MEMBER etl_user;

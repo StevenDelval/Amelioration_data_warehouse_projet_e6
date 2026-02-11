@@ -1,0 +1,68 @@
+version: 2
+
+models:
+
+  - name: stg_customer
+    description: "Cleaned customer staging table"
+    columns:
+      - name: customer_sk
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+
+      - name: email
+        tests:
+          - not_null
+
+  - name: stg_seller
+    columns:
+      - name: seller_sk
+        tests:
+          - not_null
+          - unique
+
+      - name: seller_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_product
+    columns:
+      - name: product_sk
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_order
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_sk
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customer')
+              field: customer_sk
+
+  - name: stg_order_items
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_order')
+              field: order_id
+
+      - name: seller_product_sk
+        tests:
+          - relationships:
+              to: ref('stg_seller_product_pricing')
+              field: seller_product_sk
