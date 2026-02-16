@@ -3,6 +3,7 @@
 ## 1. Introduction
 Ce document présente la structure du **Data Warehouse (DWH)** de ShopNow, adapté au modèle Marketplace.  
 Il inclut :
+
 - Les **dimensions** et **faits**
 - Les relations entre tables
 - Les rôles et permissions pour les utilisateurs
