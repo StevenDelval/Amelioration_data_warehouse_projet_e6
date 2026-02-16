@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: shopnow_audit
+    description: ""
+    database: dwh-shopnow
+    schema: audit
+
+    tables:
+      - name: dbt_run_logs
+        description: ""

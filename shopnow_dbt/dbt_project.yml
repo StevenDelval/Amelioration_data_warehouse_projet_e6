@@ -40,3 +40,7 @@ models:
       +materialized: table
       +schema: marts
       +as_columnstore: false
+
+on-run-end:
+  - "{{ log_dbt_results() }}"
+

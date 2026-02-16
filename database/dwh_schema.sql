@@ -113,7 +113,19 @@ CREATE INDEX idx_clickstream_user_id ON fact_clickstream(user_id);
 -- Créer les schémas
 CREATE SCHEMA staging;
 CREATE SCHEMA marts;
+CREATE SCHEMA audit;
 
+CREATE TABLE audit.dbt_run_logs (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    run_id UNIQUEIDENTIFIER,
+    run_started_at DATETIME2,
+    run_ended_at DATETIME2,
+    resource_type NVARCHAR(50),
+    resource_name NVARCHAR(200),
+    status NVARCHAR(20),
+    executed_by NVARCHAR(200),
+    message NVARCHAR(MAX)
+);
 -- ============================================
 -- RÔLES ET PERMISSIONS - DWH SHOPNOW
 -- ============================================
@@ -142,6 +154,7 @@ GRANT CREATE SCHEMA TO role_data_engineer;
 -- Contrôle complet sur les schémas de travail
 GRANT CONTROL ON SCHEMA::staging TO role_data_engineer;
 GRANT CONTROL ON SCHEMA::marts TO role_data_engineer;
+GRANT CONTROL ON SCHEMA::audit TO role_data_engineer;
 
 -- 2. ADMINISTRATEURS SYSTÈME
 -- Gestion infrastructure, backups, monitoring, sécurité
@@ -173,6 +186,7 @@ CREATE ROLE role_quality_operator;
 GRANT SELECT ON SCHEMA::dbo TO role_quality_operator;
 GRANT SELECT ON SCHEMA::staging TO role_quality_operator;
 GRANT SELECT ON SCHEMA::marts TO role_quality_operator;
+GRANT CONTROL ON SCHEMA::audit TO role_data_engineer;
 
 -- Création objets de contrôle qualité
 GRANT CREATE TABLE TO role_quality_operator;
