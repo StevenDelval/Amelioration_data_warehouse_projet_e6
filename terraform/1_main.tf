@@ -38,6 +38,16 @@ module "stream_analytics" {
   sql_admin_password      = var.sql_admin_password
 }
 
+resource "azurerm_storage_account" "blob_storage" {
+  name                     = "blobstoragebackupe6sd"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  account_kind             = "StorageV2"
+}
+
+
 # module "make_docker_image" {
 #   source     = "./modules/make_docker_image"
 #   container_registry_name = "acre6sdelval"
