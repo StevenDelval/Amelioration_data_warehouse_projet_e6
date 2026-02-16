@@ -9,128 +9,7 @@ Il inclut :
 - Les rôles et permissions pour les utilisateurs
 
 ---
-
-## 2. Dimensions
-
-### dim_customer
-Représente les clients de ShopNow.
-
-| Colonne       | Type         | Description                     |
-|---------------|-------------|---------------------------------|
-| customer_sk   | INT PK       | Clé sur la table                |
-| customer_id   | VARCHAR(50)  | Identifiant unique du client    |
-| name          | NVARCHAR(255)| Nom du client                   |
-| email         | NVARCHAR(255)| Email du client                 |
-| city          | NVARCHAR(100)| Ville                           |
-| country       | NVARCHAR(100)| Pays                            |
-| address       | NVARCHAR(500)| Adresse                         |
-| start_date    | DATE         | Date de début de validité       |
-| end_date      | DATE         | Date de fin de validité         |
-| is_current    | BIT          | Indique si l’enregistrement est actif |
-
----
-
-### dim_seller
-Représente les vendeurs Marketplace.
-
-| Colonne       | Type         | Description                     |
-|---------------|-------------|---------------------------------|
-| seller_sk     | INT PK       | Clé sur la table                |
-| seller_id     | VARCHAR(50)  | Identifiant unique du vendeur   |
-| name          | NVARCHAR(255)| Nom du vendeur                  |
-| status        | NVARCHAR(50) | Statut du vendeur               |
-| country       | NVARCHAR(100)| Pays                            |
-| city          | NVARCHAR(100)| Ville                           |
-| address       | NVARCHAR(500)| Adresse                         |
-| start_date    | DATE         | Date de début                   |
-| end_date      | DATE         | Date de fin                     |
-| is_current    | BIT          | Actif ou non                    |
-
----
-
-### dim_product
-Représente les produits vendus sur la plateforme.
-
-| Colonne       | Type         | Description                     |
-|---------------|-------------|---------------------------------|
-| product_sk    | INT PK       | Clé sur la table                |
-| product_id    | VARCHAR(50)  | Identifiant unique du produit   |
-| name          | NVARCHAR(255)| Nom du produit                  |
-| category      | NVARCHAR(100)| Catégorie                       |
-| description   | NVARCHAR(MAX)| Description du produit          |
-| start_date    | DATE         | Date de début                   |
-| end_date      | DATE         | Date de fin                     |
-| is_current    | BIT          | Actif ou non                    |
-
----
-
-### dim_seller_product_pricing
-Associe les vendeurs aux produits et leurs prix.
-
-| Colonne            | Type  | Description                     |
-|-------------------|-------|---------------------------------|
-| seller_product_sk  | INT PK| Clé primaire                    |
-| seller_sk          | INT FK| Référence `dim_seller`          |
-| product_sk         | INT FK| Référence `dim_product`         |
-| price              | DECIMAL(18,2)| Prix du produit           |
-| start_date         | DATE  | Date de début                   |
-| end_date           | DATE  | Date de fin                     |
-| is_current         | BIT   | Actif ou non                    |
-
----
-
-## 3. Tables de faits
-
-### fact_order
-Représente les commandes des clients.
-
-| Colonne       | Type         | Description                     |
-|---------------|-------------|---------------------------------|
-| order_id      | VARCHAR(50) PK | Identifiant de la commande    |
-| customer_sk   | INT FK       | Référence `dim_customer`       |
-| order_date    | DATE         | Date de la commande            |
-| total_amount  | DECIMAL(18,2)| Montant total                  |
-
----
-
-### fact_order_items
-Détails des produits commandés par commande.
-
-| Colonne             | Type   | Description                       |
-|-------------------|--------|-----------------------------------|
-| order_id           | VARCHAR(50) FK | Référence `fact_order`       |
-| seller_product_sk  | INT FK | Référence `dim_seller_product_pricing` |
-| quantity           | INT    | Quantité commandée                |
-
----
-
-### fact_seller_product_stock
-Historique des stocks par produit et vendeur.
-
-| Colonne            | Type     | Description                     |
-|-------------------|---------|---------------------------------|
-| seller_product_sk  | INT PK,FK | Référence `dim_seller_product_pricing` |
-| event_timestamp    | DATETIME PK | Date/heure de l’événement       |
-| stock              | INT     | Quantité en stock               |
-| source             | NVARCHAR(100)| Source de l’information      |
-
----
-
-### fact_clickstream
-Événements de navigation des utilisateurs.
-
-| Colonne         | Type         | Description                     |
-|----------------|-------------|---------------------------------|
-| event_id       | VARCHAR(50) PK | Identifiant unique             |
-| session_id     | VARCHAR(50)  | Identifiant de session          |
-| user_id        | VARCHAR(50)  | Identifiant de l’utilisateur   |
-| url            | NVARCHAR(MAX)| Page visitée                    |
-| event_type     | NVARCHAR(50) | Type d’événement                |
-| event_timestamp| DATETIME     | Date/heure de l’événement       |
-
----
-
-## 4. Relations entre tables
+## 2. Relations entre tables
 
 ### Avant
 ```mermaid
@@ -290,6 +169,127 @@ erDiagram
     dim_seller_product_pricing ||--o{ fact_order_items : seller_product_sk
     dim_seller_product_pricing ||--o{ fact_seller_product_stock : seller_product_sk
 ```
+
+## 3. Dimensions
+
+### dim_customer
+Représente les clients de ShopNow.
+
+| Colonne       | Type         | Description                     |
+|---------------|-------------|---------------------------------|
+| customer_sk   | INT PK       | Clé sur la table                |
+| customer_id   | VARCHAR(50)  | Identifiant unique du client    |
+| name          | NVARCHAR(255)| Nom du client                   |
+| email         | NVARCHAR(255)| Email du client                 |
+| city          | NVARCHAR(100)| Ville                           |
+| country       | NVARCHAR(100)| Pays                            |
+| address       | NVARCHAR(500)| Adresse                         |
+| start_date    | DATE         | Date de début de validité       |
+| end_date      | DATE         | Date de fin de validité         |
+| is_current    | BIT          | Indique si l’enregistrement est actif |
+
+---
+
+### dim_seller
+Représente les vendeurs Marketplace.
+
+| Colonne       | Type         | Description                     |
+|---------------|-------------|---------------------------------|
+| seller_sk     | INT PK       | Clé sur la table                |
+| seller_id     | VARCHAR(50)  | Identifiant unique du vendeur   |
+| name          | NVARCHAR(255)| Nom du vendeur                  |
+| status        | NVARCHAR(50) | Statut du vendeur               |
+| country       | NVARCHAR(100)| Pays                            |
+| city          | NVARCHAR(100)| Ville                           |
+| address       | NVARCHAR(500)| Adresse                         |
+| start_date    | DATE         | Date de début                   |
+| end_date      | DATE         | Date de fin                     |
+| is_current    | BIT          | Actif ou non                    |
+
+---
+
+### dim_product
+Représente les produits vendus sur la plateforme.
+
+| Colonne       | Type         | Description                     |
+|---------------|-------------|---------------------------------|
+| product_sk    | INT PK       | Clé sur la table                |
+| product_id    | VARCHAR(50)  | Identifiant unique du produit   |
+| name          | NVARCHAR(255)| Nom du produit                  |
+| category      | NVARCHAR(100)| Catégorie                       |
+| description   | NVARCHAR(MAX)| Description du produit          |
+| start_date    | DATE         | Date de début                   |
+| end_date      | DATE         | Date de fin                     |
+| is_current    | BIT          | Actif ou non                    |
+
+---
+
+### dim_seller_product_pricing
+Associe les vendeurs aux produits et leurs prix.
+
+| Colonne            | Type  | Description                     |
+|-------------------|-------|---------------------------------|
+| seller_product_sk  | INT PK| Clé primaire                    |
+| seller_sk          | INT FK| Référence `dim_seller`          |
+| product_sk         | INT FK| Référence `dim_product`         |
+| price              | DECIMAL(18,2)| Prix du produit           |
+| start_date         | DATE  | Date de début                   |
+| end_date           | DATE  | Date de fin                     |
+| is_current         | BIT   | Actif ou non                    |
+
+---
+
+## 4. Tables de faits
+
+### fact_order
+Représente les commandes des clients.
+
+| Colonne       | Type         | Description                     |
+|---------------|-------------|---------------------------------|
+| order_id      | VARCHAR(50) PK | Identifiant de la commande    |
+| customer_sk   | INT FK       | Référence `dim_customer`       |
+| order_date    | DATE         | Date de la commande            |
+| total_amount  | DECIMAL(18,2)| Montant total                  |
+
+---
+
+### fact_order_items
+Détails des produits commandés par commande.
+
+| Colonne             | Type   | Description                       |
+|-------------------|--------|-----------------------------------|
+| order_id           | VARCHAR(50) FK | Référence `fact_order`       |
+| seller_product_sk  | INT FK | Référence `dim_seller_product_pricing` |
+| quantity           | INT    | Quantité commandée                |
+
+---
+
+### fact_seller_product_stock
+Historique des stocks par produit et vendeur.
+
+| Colonne            | Type     | Description                     |
+|-------------------|---------|---------------------------------|
+| seller_product_sk  | INT PK,FK | Référence `dim_seller_product_pricing` |
+| event_timestamp    | DATETIME PK | Date/heure de l’événement       |
+| stock              | INT     | Quantité en stock               |
+| source             | NVARCHAR(100)| Source de l’information      |
+
+---
+
+### fact_clickstream
+Événements de navigation des utilisateurs.
+
+| Colonne         | Type         | Description                     |
+|----------------|-------------|---------------------------------|
+| event_id       | VARCHAR(50) PK | Identifiant unique             |
+| session_id     | VARCHAR(50)  | Identifiant de session          |
+| user_id        | VARCHAR(50)  | Identifiant de l’utilisateur   |
+| url            | NVARCHAR(MAX)| Page visitée                    |
+| event_type     | NVARCHAR(50) | Type d’événement                |
+| event_timestamp| DATETIME     | Date/heure de l’événement       |
+
+---
+
 
 ## 5. Rôles et permissions
 
