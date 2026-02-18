@@ -40,6 +40,14 @@ models:
       +materialized: table
       +schema: marts
       +as_columnstore: false
+    audit:
+      +materialized: table
+      +schema: audit
+      +as_columnstore: false
+    error:
+      +materialized: table
+      +schema: error
+      +as_columnstore: false
 
 on-run-end:
   - "{{ log_dbt_results() }}"
