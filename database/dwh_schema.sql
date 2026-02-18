@@ -15,7 +15,7 @@ CREATE TABLE dim_customer (
     end_date DATE NULL,
     is_current BIT DEFAULT 1
 );
-CREATE UNIQUE INDEX idx_dim_customer_id ON dim_customer(customer_id);
+CREATE INDEX idx_dim_customer_id ON dim_customer(customer_id);
 
 -- dim_seller
 CREATE TABLE dim_seller (
