@@ -13,7 +13,6 @@ models:
       - name: customer_id
         tests:
           - not_null
-          - unique
 
       - name: email
         tests:

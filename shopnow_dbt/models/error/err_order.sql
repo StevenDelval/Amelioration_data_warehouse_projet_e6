@@ -4,4 +4,4 @@ SELECT
     CAST(order_date AS DATE) AS order_date,
     total_amount
 FROM {{ source('shopnow_raw', 'fact_order') }}
-WHERE order_id IS NOT NULL OR total_amount >=0
+WHERE order_id IS NULL OR total_amount <0

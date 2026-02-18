@@ -1,0 +1,6 @@
+version: 2
+
+models:
+  
+  - name: err_order
+    description: "Error table fact_order"

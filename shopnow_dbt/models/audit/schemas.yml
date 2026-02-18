@@ -1,0 +1,6 @@
+version: 2
+
+models:
+
+  - name: dbt_run_logs
+    description: "Logs run dbt"
